@@ -19,7 +19,6 @@ class ProtocolParser
             return null;
         }
 
-        // 去掉第一部分的"["和第四部分的"]"
         if (Utils::startsWith($parts[0], "["))
             $parts[0] = substr($parts[0], 1, strlen($parts[0]) - 1);
         if (Utils::endsWith($parts[3], "]")) {
