@@ -23,20 +23,27 @@ class LKCmdParser extends CmdParser{
         $this->_protocol_data->getContent();
         $parts = explode("," , $this->_protocol_data->getContent());
         $len = count($parts);
-        if( $len != 1 && $len != 4 ) {
+        if( $len != 1 && $len != 7 ) {
             CustomLogger::getLogger()->error("[ERR] The LK data (len:".$len.")is not correct" . $this->_protocol_data->getContent());
             return null;
         }
-        if( $len == 4) {
+        if( $len == 7) {
             $walk_num = $parts[1];
             $sleep_num = $parts[2];
             $battery_left = $parts[3];
+            $temp = $parts[4];
+            $humi = $parts[5];
+            $bt_status = $parts[6];
+
 
             DB::insert('db_record', array(
                 'sn' => $this->_protocol_data->getDeviceSn(),
                 'walk_num' => $walk_num ,
                 'sleep_num' => $sleep_num,
                 'battery_left' => $battery_left,
+                'temp' => $temp,
+                'humi' => $humi,
+                'bt_status' => $bt_status,
                 'record_time' => time()
             ));
         }
