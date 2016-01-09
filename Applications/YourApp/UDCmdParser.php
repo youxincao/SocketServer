@@ -23,8 +23,6 @@ class UDCmdParser extends CmdParser
         try {
             $report_time = $parts[1] . " " . $parts[2];
             $flag = $parts[3];
-            $lat = 0;
-            $long = 0;
 
             //分析维度信息,如果是南纬,在数据前添加负号
             $lat = $parts[4];
@@ -33,11 +31,12 @@ class UDCmdParser extends CmdParser
             }
 
             // 分析经度信息,如果是西经,则在前面添加负号
-            $log = $parts[6];
+            $long = $parts[6];
             if ($parts[7] == "W") {
                 $long = "-" . $parts[6];
             }
             CustomLogger::getLogger()->info("[" . $report_time . "]" . " Update location [$lat,$long]");
+
             // save to the database
             DB::insert('db_location', array(
                 'sn' => $this->_protocol_data->getDeviceSn(),
