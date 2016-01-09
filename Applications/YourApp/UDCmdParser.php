@@ -27,24 +27,17 @@ class UDCmdParser extends CmdParser
             $long = 0;
 
             //分析维度信息,如果是南纬,在数据前添加负号
-            if ($parts[5] == "N") {
-                $lat = $parts[4];
-            } else if ($parts[5] == "S") {
-                $lat = "-" . $parts[4];
-            } else {
-                CustomLogger::getLogger()->error("[" . $report_time . "]" . " Location data error [" . $parts[5] . "] at index 5");
+            $lat = $parts[4];
+            if ($parts[5] == "S") {
+                $lat = "-" . $lat;
             }
 
             // 分析经度信息,如果是西经,则在前面添加负号
-            if ($parts[7] == "E") {
-                $long = $parts[6];
-            } else if ($parts[7] == "W") {
+            $log = $parts[6];
+            if ($parts[7] == "W") {
                 $long = "-" . $parts[6];
-            } else {
-                CustomLogger::getLogger()->error("[" . $report_time . "]" . " Location data error [" . $parts[7] . "] at index 7");
             }
             CustomLogger::getLogger()->info("[" . $report_time . "]" . " Update location [$lat,$long]");
-
             // save to the database
             DB::insert('db_location', array(
                 'sn' => $this->_protocol_data->getDeviceSn(),
